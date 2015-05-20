@@ -1,0 +1,29 @@
+<%= content_for(:header_text, @location.name) %>
+
+<div class="row">
+  <div class="col-md-4">
+    <%= render "shared/map", location: @location %>
+  </div>
+  <div class="col-md-6">
+    <% if @location.chapter.has_leader?(current_user) %>
+      <div class="pull-right">Last Updated: <%= @location.updated_at.to_formatted_s(:long) %></div>
+    <% end %>
+    <h2>Address:</h2>
+    <%= link_to pretty_print_address(@location), location_map_link(@location) %>
+
+    <% if @location.chapter.has_leader?(current_user) %>
+      <h2>Contact info:</h2>
+      <%= @location.contact_info %>
+      <h2>Notes:</h2>
+      <%= @location.notes %>
+    <% end %>
+  </div>
+</div>
+
+<h2 style="margin-top: 40px;">Events</h2>
+<%= render 'shared/events_table', events: @location.events %>
+
+<%= render 'shared/actions', links: [
+  ['Edit', edit_location_path(@location)],
+  ['Back', locations_path]
+] %>
